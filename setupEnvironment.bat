@@ -38,20 +38,7 @@ IF "%AK_TOOL_ROOT%" == "" (
 	goto END
 )
 
-REM Set CURL Directory
-SET CURL_ROOT=%UI_CORE_ROOT%\Third_Party_Libraries\curl\curl-7.62.0
-SET CURL_LIB=%CURL_ROOT%\build-win-x64\Release\lib
-SET CURL_INC=%CURL_ROOT%\build-win-x64\Release\include
-SET CURL_DLL=%CURL_ROOT%\build-win-x64\Release\bin
-SET CURL_LIBD=%CURL_ROOT%\build-win-x64\Debug\lib
-SET CURL_DLLD=%CURL_ROOT%\build-win-x64\Debug\bin
-
-REM Set ZLIB Directory
-SET ZLIB_ROOT=%UI_CORE_ROOT%\Third_Party_Libraries\zlib\zlib-1.2.11\x64
-SET ZLIB_LIB=%UI_CORE_ROOT%\Third_Party_Libraries\zlib\zlib-1.2.11\x64
-
 REM Setup external eviroment
-CALL "%UI_CORE_ROOT%\setupEnvironment.bat"
 CALL "%ACI_ROOT%\setupEnvironment.bat"
 CALL "%QWT_WRAPPER_ROOT%\setupEnvironment.bat"
 

@@ -44,19 +44,30 @@ aciWidget::aciWidget() : aWidget(otNone) {
 	m_out->setReadOnly(true);
 	m_out->setAutoScrollToBottom(true);
 	m_out->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
-	m_out->verticalScrollBar()->setEnabled(true);
 	{
 		QFont f = m_out->font();
 		f.setFamily("Courier");
 		f.setFixedPitch(true);
+		f.setPointSize(Settings::instance()->aciPointSize());
 		m_out->setFont(f);
 	}
-
+	
 	m_in = new aLineEditWidget;
 	m_in->setIgnoreTabulator(true);
 	m_in->setObjectName("a_input");
+	{
+		QFont f = m_in->font();
+		f.setPointSize(Settings::instance()->aciPointSize());
+		m_in->setFont(f);
+	}
+
 	m_inLabel = new aLabelWidget("<:");
 	m_inLabel->setObjectName("a_aci_inputLabel");
+	{
+		QFont f = m_inLabel->font();
+		f.setPointSize(Settings::instance()->aciPointSize());
+		m_inLabel->setFont(f);
+	}
 
 	// Setup layouts
 	m_inLayout->addWidget(m_inLabel, 0);
@@ -293,6 +304,24 @@ void aciWidget::restart(void) {
 	print(L"\nRestarting aci\n");
 
 	initialize();
+}
+
+void aciWidget::refreshAfterSettingsChanged(void) {
+	{
+		QFont f = m_out->font();
+		f.setPointSize(Settings::instance()->aciPointSize());
+		m_out->setFont(f);
+	}
+	{
+		QFont f = m_in->font();
+		f.setPointSize(Settings::instance()->aciPointSize());
+		m_in->setFont(f);
+	}
+	{
+		QFont f = m_inLabel->font();
+		f.setPointSize(Settings::instance()->aciPointSize());
+		m_inLabel->setFont(f);
+	}
 }
 
 // ###################################################################################################################################

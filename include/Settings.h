@@ -48,6 +48,8 @@ public:
 
 	ak::dateFormat DateFormat(void) const { return m_dateFormat; }
 
+	int aciPointSize(void) const { return m_aciPointSize; }
+
 	int notebookChecklistPointSize(void) const { return m_notebookChecklistPointSize; }
 
 	// ######################################################################################################
@@ -78,6 +80,8 @@ private:
 	QString						m_weightUnit;
 
 	ak::dateFormat				m_dateFormat;
+
+	int							m_aciPointSize;
 
 	int							m_notebookChecklistPointSize;
 

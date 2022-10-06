@@ -158,9 +158,8 @@ ak::aWindow * AppBase::window(void) {
 }
 
 void AppBase::settingChanged(void) {
-	if (m_notebook) {
-		m_notebook->refreshAfterSettingsChanged();
-	}
+	if (m_aci) m_aci->refreshAfterSettingsChanged();
+	if (m_notebook) m_notebook->refreshAfterSettingsChanged();
 }
 
 // #########################################################################################

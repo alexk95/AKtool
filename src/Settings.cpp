@@ -85,6 +85,7 @@ void Settings::showDialog(void) {
 	m_dialog = new aOptionsDialog(aOptionsDialog::optionsClose);
 
 	aOptionsGroup * general = m_dialog->addGroup("General", "General");
+	aOptionsGroup * ACI = m_dialog->addGroup("ACI", "ACI");
 	aOptionsGroup * notebook = m_dialog->addGroup("Notebook", "Notebook");
 
 	aOptionsGroup * appearance = general->addGroup("Appearance", "Appearance");
@@ -110,6 +111,11 @@ void Settings::showDialog(void) {
 	localData->addItem(dataPathItem);
 	localData->addItem(aciDataPathItem);
 	localData->addItem(aciScriptPathItem);
+
+	aOptionsGroup * aciAppearance = ACI->addGroup("Appearance", "Appearance");
+	aOptionsItemSpinBox * aciPointSizeItem = new aOptionsItemSpinBox("TextPointSize", "Text point size", m_aciPointSize, 6, 100);
+	aciPointSizeItem->setExplanation("The default text point size for the input and output");
+	aciAppearance->addItem(aciPointSizeItem);
 
 	aOptionsGroup * notebookAppearance = notebook->addGroup("Appearance", "Appearance");
 	aOptionsItemSpinBox * notebookChecklistPointSizeItem = new aOptionsItemSpinBox("ChecklistPointSize", "Checklist point size", m_notebookChecklistPointSize, 6, 100);
@@ -208,6 +214,12 @@ void Settings::slotSettingsItemChanged(ak::aAbstractOptionsItem * _item) {
 		m_aciScriptPath = actualItem->selectedDirectory().toStdWString();
 		uiAPI::settings::setString("aciScriptPath", QString::fromStdWString(m_aciScriptPath));
 	}
+	else if (logicalName == "ACI:Appearance:TextPointSize") {
+		aOptionsItemSpinBox * actualItem = dynamic_cast<aOptionsItemSpinBox *>(_item);
+		if (actualItem == nullptr) { aAssert(0, "Options item cast failed"); return; }
+		m_aciPointSize = actualItem->value();
+		uiAPI::settings::setInt("aciTextPointSize", m_aciPointSize);
+	}
 	else if (logicalName == "Notebook:Appearance:ChecklistPointSize") {
 		aOptionsItemSpinBox * actualItem = dynamic_cast<aOptionsItemSpinBox *>(_item);
 		if (actualItem == nullptr) { aAssert(0, "Options item cast failed"); return; }
@@ -238,6 +250,8 @@ Settings::Settings() : m_dialog(nullptr) {
 
 	m_lengthUnit = uiAPI::settings::getString("LengthUnit", "cm");
 	m_weightUnit = uiAPI::settings::getString("WeightUnit", "kg");
+
+	m_aciPointSize = uiAPI::settings::getInt("aciTextPointSize", 8);
 
 	m_notebookChecklistPointSize = uiAPI::settings::getInt("NotebookChecklistPointSize", 8);
 }
