@@ -4,9 +4,15 @@
 // Project header
 #include "AppBase.h"
 
+#include <thread>
+
 using namespace ak;
 
+std::thread::id g_mainThreadId;
+
 int main(int _argc, char ** _argv) {
+	g_mainThreadId = std::this_thread::get_id();
+	
 	// Initialize the API. This function call is mandatory,
 	// otherwise the API will not be able to create objects.
 	// The initialization will create all core objects required for the API to work

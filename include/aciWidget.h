@@ -35,23 +35,16 @@ public:
 	virtual ~aciWidget();
 
 	virtual void disableInput(void) override;
-	virtual void disableInputAsync(void) override;
 	virtual void enableInput(void) override;
-	virtual void enableInputAsync(void) override;
 
 	virtual void shutdown(void) override;
 
 	virtual void print(const std::string& _str) override;
 	virtual void print(const std::wstring& _str) override;
 	void print(const QString& _str);
-	virtual void printAsync(const std::string& _str) override;
-	virtual void printAsync(const std::wstring& _str) override;
-	void printAsync(const QString& _str);
 
 	virtual void setColor(const aci::Color& _color) override;
-	virtual void setColorAsync(const aci::Color& _color) override;
 	void setColor(const QColor& _color);
-	void setColorAsync(const QColor& _color);
 
 	virtual bool fileExists(const std::wstring& _path) override;
 	virtual bool deleteFile(const std::wstring& _path) override;
@@ -82,8 +75,6 @@ public:
 
 	void loadScripts(void);
 
-	void setInputEnabled(bool _isEnabled);
-
 	void restart(void);
 
 	void refreshAfterSettingsChanged(void);
@@ -111,6 +102,7 @@ private slots:
 
 private:
 	void initialize(void);
+	static bool queueRequired(void);
 
 	QWidget *				m_centralLayoutW;
 	QVBoxLayout *			m_centralLayout;

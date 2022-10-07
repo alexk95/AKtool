@@ -1,14 +1,17 @@
 #include "aciWidget.h"
 #include "Settings.h"
 #include "AppBase.h"
+// Project header
 #include "BodyWatcher.h"
 
+// ACI header
 #include <aci/API.h>
 #include <aci/InterpreterCore.h>
 #include <aci/aDir.h>
 #include <aci/aFile.h>
 #include <aci/ScriptLoader.h>
 
+// AK header
 #include <akAPI/uiAPI.h>		// The uiAPI
 #include <akGui/aColorStyle.h>	// ColorStyle if needed for custom widgets
 #include <akGui/aColorStyleDefaultDark.h>
@@ -19,6 +22,7 @@
 #include <akWidgets/aTabWidget.h>
 #include <akWidgets/aLabelWidget.h>
 
+// Qt header
 #include <qwidget.h>
 #include <qlayout.h>
 #include <qtextstream.h>
@@ -27,7 +31,12 @@
 #include <qevent.h>
 #include <qscrollbar.h>
 
+// C++ header
+#include <thread>
+
 using namespace ak;
+
+extern std::thread::id g_mainThreadId;
 
 aciWidget::aciWidget() : aWidget(otNone) {
 	// Create layouts
@@ -105,32 +114,31 @@ aciWidget::~aciWidget() {
 }
 
 void aciWidget::disableInput(void) {
-	setInputEnabled(false);
+	if (queueRequired()) QMetaObject::invokeMethod(this, "slotSetInputEnabled", Qt::QueuedConnection, Q_ARG(bool, false));
+	else slotSetInputEnabled(false);
 }
-void aciWidget::disableInputAsync(void) {
-	QMetaObject::invokeMethod(this, "slotSetInputEnabled", Qt::QueuedConnection, Q_ARG(bool, false));
-}
+
 void aciWidget::enableInput(void) {
-	setInputEnabled(true);
-}
-void aciWidget::enableInputAsync(void) {
-	QMetaObject::invokeMethod(this, "slotSetInputEnabled", Qt::QueuedConnection, Q_ARG(bool, true));
+	if (queueRequired()) QMetaObject::invokeMethod(this, "slotSetInputEnabled", Qt::QueuedConnection, Q_ARG(bool, true));
+	else slotSetInputEnabled(true);
 }
 
 void aciWidget::shutdown(void) {
 	QMetaObject::invokeMethod(AppBase::instance(), &AppBase::shutdownAci, Qt::QueuedConnection);
 }
 
-void aciWidget::print(const std::string& _str) { slotPrintMessage(QString(_str.c_str())); }
-void aciWidget::print(const std::wstring& _str) { slotPrintMessage(QString::fromWCharArray(_str.c_str())); }
-void aciWidget::print(const QString& _str) { slotPrintMessage(_str); }
-void aciWidget::printAsync(const std::string& _str) { QMetaObject::invokeMethod(this, "slotPrintMessage", Qt::QueuedConnection, Q_ARG(const QString&, QString(_str.c_str()))); }
-void aciWidget::printAsync(const std::wstring& _str) { QMetaObject::invokeMethod(this, "slotPrintMessage", Qt::QueuedConnection, Q_ARG(const QString&, QString::fromWCharArray(_str.c_str()))); }
-void aciWidget::printAsync(const QString& _str) { QMetaObject::invokeMethod(this, "slotPrintMessage", Qt::QueuedConnection, Q_ARG(const QString&, _str)); }
-void aciWidget::setColor(const aci::Color& _color) { slotSetColor(QColor(_color.r(), _color.g(), _color.b(), _color.a())); }
-void aciWidget::setColorAsync(const aci::Color& _color) { QMetaObject::invokeMethod(this, "slotSetColor", Qt::QueuedConnection, Q_ARG(const QColor&, QColor(_color.r(), _color.g(), _color.b(), _color.a()))); }
-void aciWidget::setColor(const QColor& _color) { slotSetColor(_color); }
-void aciWidget::setColorAsync(const QColor& _color) { QMetaObject::invokeMethod(this, "slotSetColor", Qt::QueuedConnection, Q_ARG(const QColor&, _color)); }
+void aciWidget::print(const std::string& _str) { print(QString(_str.c_str())); }
+void aciWidget::print(const std::wstring& _str) { print(QString::fromWCharArray(_str.c_str())); }
+void aciWidget::print(const QString& _str) {
+	if (queueRequired()) QMetaObject::invokeMethod(this, "slotPrintMessage", Qt::QueuedConnection, Q_ARG(const QString&, _str));
+	else slotPrintMessage(_str);
+}
+
+void aciWidget::setColor(const aci::Color& _color) { setColor(QColor(_color.r(), _color.g(), _color.b(), _color.a())); }
+void aciWidget::setColor(const QColor& _color) {
+	if (queueRequired()) QMetaObject::invokeMethod(this, "slotSetColor", Qt::QueuedConnection, Q_ARG(const QColor&, _color));
+	else slotSetColor(_color);
+}
 
 bool aciWidget::fileExists(const std::wstring& _path) {
 	return QFile(QString::fromStdWString(_path)).exists();
@@ -284,17 +292,6 @@ void aciWidget::loadScripts(void) {
 #endif // _DEBUG
 }
 
-void aciWidget::setInputEnabled(bool _isEnabled) {
-	m_in->setEnabled(_isEnabled);
-	if (_isEnabled) {
-		m_inLabel->setStyleSheet("#a_aci_inputLabel{color: #40ff40;}");
-		m_in->setFocus();
-	}
-	else {
-		m_inLabel->setStyleSheet("#a_aci_inputLabel{color: #ff4040;}");
-	}
-}
-
 void aciWidget::restart(void) {
 	print(L"\nShutting down aci\n");
 
@@ -356,7 +353,14 @@ void aciWidget::slotHandle(void) {
 }
 
 void aciWidget::slotSetInputEnabled(bool _enabled) {
-	setInputEnabled(_enabled);
+	m_in->setEnabled(_enabled);
+	if (_enabled) {
+		m_inLabel->setStyleSheet("#a_aci_inputLabel{color: #40ff40;}");
+		m_in->setFocus();
+	}
+	else {
+		m_inLabel->setStyleSheet("#a_aci_inputLabel{color: #ff4040;}");
+	}
 }
 
 void aciWidget::slotPrintMessage(const QString& _message) {
@@ -463,4 +467,8 @@ void aciWidget::initialize(void) {
 	connect(m_in, &aLineEditWidget::keyReleased, this, &aciWidget::slotKeyUpOnInput);
 	connect(m_in, &aLineEditWidget::tabPressed, this, &aciWidget::slotTabPressOnInput);
 	m_in->setFocus();
+}
+
+bool aciWidget::queueRequired(void) {
+	return std::this_thread::get_id() != g_mainThreadId;
 }
