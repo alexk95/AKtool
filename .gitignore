@@ -23,6 +23,7 @@
 # Build Logs
 buildLog_Debug.txt
 buildLog_Release.txt
+buildLog_Summary.txt
 
 # Compiled Static libraries
 *.lai

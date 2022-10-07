@@ -93,11 +93,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(UICORE_ENV_INC);$(ACI_CORE)\include;$(QWT_WRAPPER_INC);$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(UICORE_ENV_INC);$(ACI_CORE)\include;$(QWT_WRAPPER_INC);$(CURL_INCD);$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(UICORE_ENV_LIBD_ROOT);$(ACI_CORE)\x64\$(Configuration);$(QWT_WRAPPER_LIBD_ROOT);$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(UICORE_ENV_LIBD_INP);aciCore.lib;$(QWT_WRAPPER_LIBD);$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(UICORE_ENV_LIBD_ROOT);$(ACI_CORE)\x64\$(Configuration);$(QWT_WRAPPER_LIBD_ROOT);$(CURL_LIBD);$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(UICORE_ENV_LIBD_INP);aciCore.lib;$(QWT_WRAPPER_LIBD);libcurl_debug.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>copy $(MSBuildProjectDirectory)\qt.conf $(OutputPath)</Command>
@@ -108,11 +108,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(UICORE_ENV_LIB_ROOT);$(ACI_CORE)\x64\$(Configuration);$(QWT_WRAPPER_LIB_ROOT);$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(UICORE_ENV_LIB_INP);aciCore.lib;$(QWT_WRAPPER_LIB);$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(UICORE_ENV_LIB_ROOT);$(ACI_CORE)\x64\$(Configuration);$(QWT_WRAPPER_LIB_ROOT);$(CURL_LIB);$(Qt_LIBPATH_);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(UICORE_ENV_LIB_INP);aciCore.lib;$(QWT_WRAPPER_LIB);libcurl.lib;$(Qt_LIBS_);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(UICORE_ENV_INC);$(ACI_CORE)\include;$(QWT_WRAPPER_INC);$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(UICORE_ENV_INC);$(ACI_CORE)\include;$(QWT_WRAPPER_INC);$(CURL_INC);$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <CustomBuildStep>
       <Command>copy $(MSBuildProjectDirectory)\qt.conf $(OutputPath)</Command>
