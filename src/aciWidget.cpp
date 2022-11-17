@@ -52,7 +52,7 @@ aciWidget::aciWidget() : aWidget(otNone) {
 	m_out = new aTextEditWidget;
 	m_out->setReadOnly(true);
 	m_out->setAutoScrollToBottom(true);
-	m_out->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+	m_out->setTextInteractionFlags(Qt::TextInteractionFlag::TextBrowserInteraction);
 	{
 		QFont f = m_out->font();
 		f.setFamily("Courier");
@@ -400,16 +400,9 @@ void aciWidget::slotKeyDownOnInpout(QKeyEvent * _event) {
 		}
 		else { m_in->setText(m_commandBuffer[m_commandIndex - 1]); }
 	}
-	else if (_event->key() == Qt::Key_Alt) {
-		m_out->setEnabled(true);
-	}
 }
 
-void aciWidget::slotKeyUpOnInput(QKeyEvent * _event) {
-	if (_event->key() == Qt::Key_Alt) {
-		m_out->setEnabled(false);
-	}
-}
+void aciWidget::slotKeyUpOnInput(QKeyEvent * _event) {}
 
 void aciWidget::slotTabPressOnInput(void) {
 	if (m_lastCommand.isEmpty()) { return; }
