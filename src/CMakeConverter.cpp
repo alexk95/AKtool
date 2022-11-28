@@ -19,6 +19,9 @@ void CMakeConverter::runVSToCMake(void) {
 	QFile vsProjFile(vsProjFileName);
 	if (!vsProjFile.exists()) return;
 
+	// Open file for reading
+	if (!vsProjFile.open(QIODevice::ReadOnly)) return;
+
 	// Read file
 	QByteArray vsProjFileContent = vsProjFile.readAll();
 	vsProjFile.close();
@@ -27,6 +30,5 @@ void CMakeConverter::runVSToCMake(void) {
 	CMakeVSConverter::VS_CXX_Project project;
 	if (!project.setFromProjectFile(vsProjFileContent)) return;
 
-
-
+	ak::uiAPI::settings::setString("CMAKE_CONVERTER_CXX_VS_DIR", vsProjFileName);
 }
