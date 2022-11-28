@@ -7,6 +7,7 @@
 #include "BodyWatcherVisualization.h"
 #include "Notebook.h"
 #include "Cookbook.h"
+#include "CMakeConverter.h"
 
 // uiCore header
 #include <akAPI/uiAPI.h>
@@ -28,6 +29,9 @@ TabToolbar::TabToolbar(AppBase * _app)
 
 	m_aci.page = uiAPI::createTabToolBarSubContainer(m_app->m_uid, m_app->m_mainWindowUID, aciPageText());
 	m_aci.gDef = uiAPI::createTabToolBarSubContainer(m_app->m_uid, m_aci.page, "");
+
+	m_cmake.page = uiAPI::createTabToolBarSubContainer(m_app->m_uid, m_app->m_mainWindowUID, "CMake Tools");
+	m_cmake.gDef = uiAPI::createTabToolBarSubContainer(m_app->m_uid, m_cmake.page, "");
 
 	m_bodyWatcher.page = uiAPI::createTabToolBarSubContainer(m_app->m_uid, m_app->m_mainWindowUID, bodyWatcherPageText());
 	m_bodyWatcher.gDef = uiAPI::createTabToolBarSubContainer(m_app->m_uid, m_bodyWatcher.page, "");
@@ -52,6 +56,8 @@ TabToolbar::TabToolbar(AppBase * _app)
 	m_aci.gDef_aInit = uiAPI::createToolButton(m_app->m_uid, "Initialize", "aci", "ToolBar");
 	m_aci.gDef_aReload = uiAPI::createToolButton(m_app->m_uid, "Restart", "Refresh", "ToolBar");
 	m_aci.gDef_aClose = uiAPI::createToolButton(m_app->m_uid, "Close", "Cancel", "ToolBar");
+
+	m_cmake.gCppVsProj = uiAPI::createToolButton(m_app->m_uid, "VS C++ to CMake", "VisualStudioCXX", "ToolBar");
 
 	m_bodyWatcher.gDef_aInit = uiAPI::createToolButton(m_app->m_uid, "Initialize", "Create", "ToolBar");
 	m_bodyWatcher.gDef_aConnectToAci = uiAPI::createToolButton(m_app->m_uid, "Connect to ACI", "Connected", "ToolBar");
@@ -90,6 +96,8 @@ TabToolbar::TabToolbar(AppBase * _app)
 	uiAPI::container::addObject(m_aci.gDef, m_aci.gDef_aInit);
 	uiAPI::container::addObject(m_aci.gDef, m_aci.gDef_aReload);
 	uiAPI::container::addObject(m_aci.gDef, m_aci.gDef_aClose);
+
+	uiAPI::container::addObject(m_cmake.gDef, m_cmake.gCppVsProj);
 
 	uiAPI::container::addObject(m_bodyWatcher.gDef, m_bodyWatcher.gDef_aInit);
 	uiAPI::container::addObject(m_bodyWatcher.gDef, m_bodyWatcher.gDef_aConnectToAci);
@@ -147,7 +155,10 @@ TabToolbar::TabToolbar(AppBase * _app)
 	uiAPI::toolButton::setEnabled(m_cookbook.gData_aSave, false);
 
 	// Setup tooltips
+	uiAPI::object::get<aToolButtonWidget>(m_cmake.gCppVsProj)->SetToolTip("Generate CMakeList.txt file from VS2017 C++ Project file");
+
 	uiAPI::object::get<aToolButtonWidget>(m_bodyWatcher.gData_aSave)->SetToolTip("Save (Ctrl+S)");
+	
 	uiAPI::object::get<aToolButtonWidget>(m_noteBook.gData_aSave)->SetToolTip("Save (Ctrl+S)");
 
 	// Setup shortcuts
@@ -164,6 +175,8 @@ TabToolbar::TabToolbar(AppBase * _app)
 	uiAPI::registerUidNotifier(m_aci.gDef_aInit, this);
 	uiAPI::registerUidNotifier(m_aci.gDef_aReload, this);
 	uiAPI::registerUidNotifier(m_aci.gDef_aClose, this);
+
+	uiAPI::registerUidNotifier(m_cmake.gCppVsProj, this);
 
 	uiAPI::registerUidNotifier(m_bodyWatcher.gDef_aInit, this);
 	uiAPI::registerUidNotifier(m_bodyWatcher.gDef_aConnectToAci, this);
@@ -223,6 +236,9 @@ void TabToolbar::notify(
 		}
 		else if (_sender == m_aci.gDef_aClose && _eventType == etClicked) {
 			m_app->shutdownAci();
+		}
+		else  if (_sender == m_cmake.gCppVsProj && _eventType == etClicked) {
+			CMakeConverter::runVSToCMake();
 		}
 		else if (_sender == m_bodyWatcher.gDef_aInit && _eventType == etClicked) {
 			if (!m_app->initializeBodyWatcher()) return;

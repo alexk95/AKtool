@@ -16,6 +16,8 @@
     <ClCompile Include="src\aTextEditorWidget.cpp" />
     <ClCompile Include="src\BodyWatcher.cpp" />
     <ClCompile Include="src\BodyWatcherVisualization.cpp" />
+    <ClCompile Include="src\CMakeConverter.cpp" />
+    <ClCompile Include="src\CMakeVSConverter.cpp" />
     <ClCompile Include="src\Cookbook.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\NavigationManager.cpp" />
@@ -38,6 +40,8 @@
     <QtMoc Include="include\Notebook.h" />
     <QtMoc Include="include\NewNameDialog.h" />
     <QtMoc Include="include\aTextEditorWidget.h" />
+    <ClInclude Include="include\CMakeConverter.h" />
+    <ClInclude Include="include\CMakeVSConverter.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

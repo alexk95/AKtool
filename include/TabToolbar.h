@@ -88,6 +88,12 @@ private:
 		ak::UID		gDef_aClose;
 	};
 
+	struct structCMake {
+		ak::UID		page;
+		ak::UID		gDef;
+		ak::UID		gCppVsProj;
+	};
+
 	struct structBodyWatcher {
 		ak::UID		page;
 		ak::UID		gDef;
@@ -131,6 +137,7 @@ private:
 
 	structFilePage			m_file;				//! The main page
 	structAciPage			m_aci;
+	structCMake				m_cmake;
 	structBodyWatcher		m_bodyWatcher;
 	structNotebook			m_noteBook;
 	structCookbook			m_cookbook;

@@ -46,6 +46,12 @@
     <Filter Include="Source Files\Widgets">
       <UniqueIdentifier>{764fe33e-a8c6-451b-ac90-b9ad527a59cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\CMakeConverter">
+      <UniqueIdentifier>{c416accc-1dcb-424a-8417-a20cd54b23ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CMakeConverter">
+      <UniqueIdentifier>{50916d02-68fd-4751-ab2b-5df55cd07b91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AppBase.cpp">
@@ -87,6 +93,12 @@
     <ClCompile Include="src\aTextEditorWidget.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="src\CMakeConverter.cpp">
+      <Filter>Source Files\CMakeConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CMakeVSConverter.cpp">
+      <Filter>Source Files\CMakeConverter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\TabToolbar.h">
@@ -97,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="include\AbstractNavigationManagerCallbackObject.h">
       <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CMakeConverter.h">
+      <Filter>Header Files\CMakeConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CMakeVSConverter.h">
+      <Filter>Header Files\CMakeConverter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
