@@ -26,6 +26,13 @@
     <ClCompile Include="src\PropertyManager.cpp" />
     <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\TabToolbar.cpp" />
+    <ClCompile Include="src\TTS.cpp" />
+    <ClCompile Include="src\Wishlist.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\aciWidget.h" />
@@ -42,6 +49,8 @@
     <QtMoc Include="include\aTextEditorWidget.h" />
     <ClInclude Include="include\CMakeConverter.h" />
     <ClInclude Include="include\CMakeVSConverter.h" />
+    <QtMoc Include="include\Wishlist.h" />
+    <ClInclude Include="include\TTS.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -125,12 +134,12 @@
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>$(QTDIR)</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;texttospeech</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>$(QTDIR)</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;texttospeech</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">

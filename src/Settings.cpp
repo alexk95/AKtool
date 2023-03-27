@@ -88,6 +88,7 @@ void Settings::showDialog(void) {
 	aOptionsGroup * ACI = m_dialog->addGroup("ACI", "ACI");
 	aOptionsGroup * notebook = m_dialog->addGroup("Notebook", "Notebook");
 
+	// General: Appearance
 	aOptionsGroup * appearance = general->addGroup("Appearance", "Appearance");
 	aOptionsItemComboButton * colorStyle = new aOptionsItemComboButton("ColorStyle", "Color style", { "Bright", "Dark", "Blue" }, m_colorStyle);
 	aOptionsItemCheckBox * doubleClickToolBar = new aOptionsItemCheckBox("DoubleClickTTB", "Minimize toolbar on double click", m_allowDoubleClickOnTabToolbar);
@@ -101,6 +102,7 @@ void Settings::showDialog(void) {
 	appearance->addItem(lengthUnitItem);
 	appearance->addItem(weightUnitItem);
 
+	// General: Local Data
 	aOptionsGroup * localData = general->addGroup("LocalData", "Local data");
 	aOptionsItemDirectorySelect * dataPathItem = new aOptionsItemDirectorySelect("DataPath", "Data path", m_dataPath);
 	dataPathItem->setExplanation("The root directory where the application data should be stored at");
@@ -112,11 +114,18 @@ void Settings::showDialog(void) {
 	localData->addItem(aciDataPathItem);
 	localData->addItem(aciScriptPathItem);
 
+	// General: TTS
+	aOptionsGroup * tts = general->addGroup("TTS", "Text-to-Speech");
+	aOptionsItemDoubleSpinBox * ttsVolume = new aOptionsItemDoubleSpinBox("Volume", "Volume", m_ttsVolume, 0., 100., 2);
+	tts->addItem(ttsVolume);
+
+	// ACI: Appearance
 	aOptionsGroup * aciAppearance = ACI->addGroup("Appearance", "Appearance");
 	aOptionsItemSpinBox * aciPointSizeItem = new aOptionsItemSpinBox("TextPointSize", "Text point size", m_aciPointSize, 6, 100);
 	aciPointSizeItem->setExplanation("The default text point size for the input and output");
 	aciAppearance->addItem(aciPointSizeItem);
 
+	// Notebook: Appearance
 	aOptionsGroup * notebookAppearance = notebook->addGroup("Appearance", "Appearance");
 	aOptionsItemSpinBox * notebookChecklistPointSizeItem = new aOptionsItemSpinBox("ChecklistPointSize", "Checklist point size", m_notebookChecklistPointSize, 6, 100);
 	notebookChecklistPointSizeItem->setExplanation("The text point size of the checklist entries");
@@ -254,6 +263,8 @@ Settings::Settings() : m_dialog(nullptr) {
 	m_aciPointSize = uiAPI::settings::getInt("aciTextPointSize", 8);
 
 	m_notebookChecklistPointSize = uiAPI::settings::getInt("NotebookChecklistPointSize", 8);
+
+	m_ttsVolume = uiAPI::settings::getDouble("TTSVolume", 0.5);
 }
 
 Settings::~Settings() {}

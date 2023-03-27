@@ -25,6 +25,8 @@ namespace ak { class aTabWidget; }
 namespace ak { class aWindow; }
 namespace ak { class aWindowManager; }
 
+#define AK_APP AppBase::instance()
+
 //! This class is managing the UI
 //! We derive from aWindowEventHandler to be able to register this class as a
 //! window event handler for the main window
@@ -82,6 +84,7 @@ public slots:
 	void shutdownCookbook(void);
 
 private slots:
+	void slotInitializeTTS(void);
 	void slotTabChanged(int _index);
 	void slotTtbTabChanged(int _index);
 

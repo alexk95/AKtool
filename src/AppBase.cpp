@@ -1,5 +1,6 @@
 // Application header
 #include "AppBase.h"			// Corresponding header
+#include "TTS.h"			// Corresponding header
 #include "TabToolbar.h"			// TabToolbar
 #include "PropertyManager.h"
 #include "NavigationManager.h"
@@ -297,6 +298,10 @@ void AppBase::shutdownCookbook(void) {
 	m_ttb->setEnabledStateAfterCookbookShutdown();
 }
 
+void AppBase::slotInitializeTTS(void) {
+	AK_TTS;
+}
+
 void AppBase::slotTabChanged(int _index) {
 	if (_index == -1) m_propertyManager->setCurrentView(PropertyManager::NO_VIEW);
 	else {
@@ -468,6 +473,8 @@ AppBase::AppBase()
 	connect(m_mainWindow, &aWindowManager::tabToolBarTabChanged, this, &AppBase::slotTtbTabChanged);
 
 	appendOutputLine("Ready");
+
+	QMetaObject::invokeMethod(this, &AppBase::slotInitializeTTS, Qt::QueuedConnection);
 }
 
 AppBase::~AppBase() {

@@ -8,13 +8,16 @@
 #include <akCore/akCore.h>
 
 // qt header
-#include <qobject.h>
-#include <qstring.h>
+#include <QtCore/qobject.h>
+#include <QtCore/qstring.h>
+#include <QtCore/qlocale.h>
 
 #include <string>
 
 namespace ak { class aOptionsDialog; }
 namespace ak { class aAbstractOptionsItem; }
+
+#define AK_CFG Settings::instance()
 
 class Settings : public QObject, public aci::InterpreterObject {
 	Q_OBJECT
@@ -84,6 +87,10 @@ private:
 	int							m_aciPointSize;
 
 	int							m_notebookChecklistPointSize;
+
+	double						m_ttsPitch;
+	double						m_ttsVolume;
+	QLocale						m_ttsLocale;
 
 	Settings();
 	~Settings();

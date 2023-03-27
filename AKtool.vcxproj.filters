@@ -99,6 +99,12 @@
     <ClCompile Include="src\CMakeVSConverter.cpp">
       <Filter>Source Files\CMakeConverter</Filter>
     </ClCompile>
+    <ClCompile Include="src\Wishlist.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TTS.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\TabToolbar.h">
@@ -115,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="include\CMakeVSConverter.h">
       <Filter>Header Files\CMakeConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TTS.h">
+      <Filter>Header Files\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +169,9 @@
     </QtMoc>
     <QtMoc Include="include\aTextEditorWidget.h">
       <Filter>Header Files\Widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="include\Wishlist.h">
+      <Filter>Header Files\Views</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>
